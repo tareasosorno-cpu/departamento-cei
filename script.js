@@ -16,6 +16,7 @@ const personas = [
   {id:"leonardo-flores",nombre:"Leonardo Flores Cosío",cargo:"Coordinación de Procesos de Tutorías",area:"tutorias",foto:"assets/photos/leonardo-flores.jpg",programas:"Programa escolarizado de Ingeniería Arquitecto",correo:"leonardo.flores@univa.mx",extension:"1870"},
   {id:"daniela-alcocer",nombre:"Daniela Patricia Alcocer Pérez",cargo:"Coordinación de Vinculación",area:"vinculacion",foto:"assets/photos/daniela-alcocer.jpg",correo:"daniela.alcocer@univa.mx",extension:"2003"},
   {id:"ana-ramos",nombre:"Ana Caro Ramos",cargo:"Comisión de Titulación",area:"titulacion",foto:"assets/photos/ana-ramos.jpg"},
+  {id:"alejandra-munoz",nombre:"Alejandra Muñoz Hernández",cargo:"Asistente del Departamento",area:"asistencia"},
   {id:"luis-cortes",nombre:"Luis Gabriel Cortés Huerta",cargo:"Encargado de laboratorios del CIDEC",area:"laboratorios",foto:"assets/photos/luis-cortes.jpg",programas:"Ingeniería Arquitecto, Ingeniería Industrial e Ingeniería Mecatrónica"},
   {id:"jorge-lopez",nombre:"Jorge Antonio López Avilés",cargo:"Encargado de laboratorios del CIDEC",area:"laboratorios",foto:"assets/photos/jorge-lopez.jpg",programas:"Ingeniería Arquitecto, Ingeniería Industrial e Ingeniería Mecatrónica"},
   {id:"alfredo-gonzalez",nombre:"Alfredo González Mercado",cargo:"Laboratorio de Cómputo",area:"laboratorios",foto:"assets/photos/alfredo-gonzalez.jpg"},
@@ -27,7 +28,7 @@ const iniciales = nombre => nombre.split(" ").filter(Boolean).slice(0,2).map(p =
 
 function tarjetaPersona(persona) {
   return `<a class="person-card" href="#persona/${persona.id}">
-    <span class="avatar"><img src="${persona.foto}" alt="Fotografía de ${persona.nombre}"></span>
+    <span class="avatar">${persona.foto?`<img src="${persona.foto}" alt="Fotografía de ${persona.nombre}">`:iniciales(persona.nombre)}</span>
     <span><b>${persona.nombre}</b><small>${persona.cargo}</small>${persona.programas?`<small class="programas">${persona.programas}</small>`:""}</span><i>→</i>
   </a>`;
 }
@@ -59,7 +60,7 @@ function verPersona(id) {
   const p = personas.find(persona=>persona.id===id);
   if (!p) return inicio();
   const area=areas.find(a=>a.id===p.area);
-  app.innerHTML=`<section class="profile-page"><a class="back light-back" href="#area/${p.area}">← Volver al área</a><div class="profile-card"><span class="profile-avatar"><img src="${p.foto}" alt="Fotografía de ${p.nombre}"></span><div><p class="eyebrow blue">Semblanza</p><h1>${p.nombre}</h1><h2>${p.cargo}</h2>${p.programas?`<p class="program-detail"><b>Programas que atiende:</b> ${p.programas}.</p>`:""}<p class="bio">La formación académica, experiencia profesional y semblanza de este integrante se incorporarán en la siguiente actualización del sitio.</p><dl><dt>Área</dt><dd>${area?.title||""}</dd>${p.correo?`<dt>Correo</dt><dd><a href="mailto:${p.correo}">${p.correo}</a></dd>`:""}${p.extension?`<dt>Extensión</dt><dd>${p.extension}</dd>`:""}</dl></div></div></section>`;
+  app.innerHTML=`<section class="profile-page"><a class="back light-back" href="#area/${p.area}">← Volver al área</a><div class="profile-card"><span class="profile-avatar">${p.foto?`<img src="${p.foto}" alt="Fotografía de ${p.nombre}">`:iniciales(p.nombre)}</span><div><p class="eyebrow blue">Semblanza</p><h1>${p.nombre}</h1><h2>${p.cargo}</h2>${p.programas?`<p class="program-detail"><b>Programas que atiende:</b> ${p.programas}.</p>`:""}<p class="bio">La formación académica, experiencia profesional y semblanza de este integrante se incorporarán en la siguiente actualización del sitio.</p><dl><dt>Área</dt><dd>${area?.title||""}</dd>${p.correo?`<dt>Correo</dt><dd><a href="mailto:${p.correo}">${p.correo}</a></dd>`:""}${p.extension?`<dt>Extensión</dt><dd>${p.extension}</dd>`:""}</dl></div></div></section>`;
 }
 
 function navegar() {

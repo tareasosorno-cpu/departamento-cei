@@ -14,10 +14,10 @@ const personas = [
   {id:"luis-osorno",nombre:"Luis Alfonso Osorno Montes",cargo:"Coordinación de Procesos Académicos",area:"academicos",foto:"assets/photos/luis-osorno.jpg",programas:"Programas escolarizados de Ingeniería Industrial, Ingeniería Mecatrónica e Ingeniería en Sistemas y Tecnologías de Información; programas Impulso de Ingeniería Industrial e Ingeniería en Sistemas Computacionales",correo:"luis.osorno@univa.mx",extension:"1455"},
   {id:"sandra-estrada",nombre:"Sandra Guadalupe Estrada Ochoa",cargo:"Coordinación de Procesos de Tutorías",area:"tutorias",foto:"assets/photos/sandra-estrada.jpg",programas:"Programas escolarizados de Ingeniería Industrial, Ingeniería Mecatrónica e Ingeniería en Sistemas y Tecnologías de Información; programas Impulso de Ingeniería Industrial e Ingeniería en Sistemas Computacionales",correo:"sandy.estrada@univa.mx",extension:"1831"},
   {id:"leonardo-flores",nombre:"Leonardo Flores Cosío",cargo:"Coordinación de Procesos de Tutorías",area:"tutorias",foto:"assets/photos/leonardo-flores.jpg",programas:"Programa escolarizado de Ingeniería Arquitecto",correo:"leonardo.flores@univa.mx",extension:"1870"},
-  {id:"daniela-alcocer",nombre:"Daniela Patricia Alcocer Pérez",cargo:"Coordinación de Titulación y Vinculación",area:"vinculacion",foto:"assets/photos/daniela-alcocer.jpg",correo:"daniela.alcocer@univa.mx",extension:"2003"},
-  {id:"ana-ramos",nombre:"Ana Caro Ramos",cargo:"Laboratorio de Construcción",area:"laboratorios",foto:"assets/photos/ana-ramos.jpg"},
-  {id:"luis-cortes",nombre:"Luis Gabriel Cortés Huerta",cargo:"Laboratorio de Ingenierías",area:"laboratorios",foto:"assets/photos/luis-cortes.jpg"},
-  {id:"jorge-lopez",nombre:"Jorge Antonio López Avilés",cargo:"Laboratorio de Electrónica",area:"laboratorios",foto:"assets/photos/jorge-lopez.jpg"},
+  {id:"daniela-alcocer",nombre:"Daniela Patricia Alcocer Pérez",cargo:"Coordinación de Vinculación",area:"vinculacion",foto:"assets/photos/daniela-alcocer.jpg",correo:"daniela.alcocer@univa.mx",extension:"2003"},
+  {id:"ana-ramos",nombre:"Ana Caro Ramos",cargo:"Comisión de Titulación",area:"titulacion",foto:"assets/photos/ana-ramos.jpg"},
+  {id:"luis-cortes",nombre:"Luis Gabriel Cortés Huerta",cargo:"Encargado de laboratorios del CIDEC",area:"laboratorios",foto:"assets/photos/luis-cortes.jpg",programas:"Ingeniería Arquitecto, Ingeniería Industrial e Ingeniería Mecatrónica"},
+  {id:"jorge-lopez",nombre:"Jorge Antonio López Avilés",cargo:"Encargado de laboratorios del CIDEC",area:"laboratorios",foto:"assets/photos/jorge-lopez.jpg",programas:"Ingeniería Arquitecto, Ingeniería Industrial e Ingeniería Mecatrónica"},
   {id:"alfredo-gonzalez",nombre:"Alfredo González Mercado",cargo:"Laboratorio de Cómputo",area:"laboratorios",foto:"assets/photos/alfredo-gonzalez.jpg"},
   {id:"angel-perez",nombre:"Ángel Jaziel Pérez Zamora",cargo:"Auxiliar de Laboratorio de Cómputo",area:"laboratorios",foto:"assets/photos/angel-perez.jpg"}
 ];
@@ -51,7 +51,7 @@ function inicio() {
 function verArea(id) {
   const area = areas.find(a=>a.id===id);
   if (!area) return inicio();
-  const miembros = personas.filter(p=>p.area===id || (id==="titulacion" && p.area==="vinculacion"));
+  const miembros = personas.filter(p=>p.area===id);
   app.innerHTML = `<section class="detail-page"><a class="back" href="#areas">← Todas las áreas</a><div class="detail-title"><p class="eyebrow blue">Área departamental</p><h1>${area.title}</h1><p>${area.description}</p>${area.location?`<span class="location">⌖ ${area.location}</span>`:""}</div><div class="detail-rule"></div><h2>Integrantes del área</h2>${miembros.length?`<div class="people-grid dark-text">${miembros.map(tarjetaPersona).join("")}</div>`:`<div class="placeholder">Información de integrantes pendiente de actualización.</div>`}</section>`;
 }
 

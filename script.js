@@ -9,17 +9,17 @@ const areas = [
 ];
 
 const personas = [
-  {id:"maria-elena",nombre:"María Elena González Bañales",cargo:"Jefa del departamento",area:"jefatura",correo:"elena.gonzalez@univa.mx",extension:"1456"},
-  {id:"carmen-cobian",nombre:"Carmen Claudia Cobián López",cargo:"Coordinación de Procesos Académicos",area:"academicos",correo:"carmen.cobian@univa.mx",extension:"1462"},
-  {id:"luis-osorno",nombre:"Luis Alfonso Osorno Montes",cargo:"Coordinación de Procesos Académicos",area:"academicos",correo:"luis.osorno@univa.mx",extension:"1455"},
-  {id:"sandra-estrada",nombre:"Sandra Guadalupe Estrada Ochoa",cargo:"Coordinación de Procesos de Tutorías",area:"tutorias",correo:"sandy.estrada@univa.mx",extension:"1831"},
-  {id:"leonardo-flores",nombre:"Leonardo Flores Cosío",cargo:"Coordinación de Procesos de Tutorías",area:"tutorias",correo:"leonardo.flores@univa.mx",extension:"1870"},
-  {id:"daniela-alcocer",nombre:"Daniela Patricia Alcocer Pérez",cargo:"Coordinación de Titulación y Vinculación",area:"vinculacion",correo:"daniela.alcocer@univa.mx",extension:"2003"},
-  {id:"ana-ramos",nombre:"Ana Caro Ramos",cargo:"Laboratorio de Construcción",area:"laboratorios"},
-  {id:"luis-cortes",nombre:"Luis Gabriel Cortés Huerta",cargo:"Laboratorio de Ingenierías",area:"laboratorios"},
-  {id:"jorge-lopez",nombre:"Jorge Antonio López Avilés",cargo:"Laboratorio de Electrónica",area:"laboratorios"},
-  {id:"alfredo-gonzalez",nombre:"Alfredo González Mercado",cargo:"Laboratorio de Cómputo",area:"laboratorios"},
-  {id:"angel-perez",nombre:"Ángel Jaziel Pérez Zamora",cargo:"Auxiliar de Laboratorio de Cómputo",area:"laboratorios"}
+  {id:"maria-elena",nombre:"María Elena González Bañales",cargo:"Jefa del departamento",area:"jefatura",foto:"assets/photos/maria-elena.jpg",correo:"elena.gonzalez@univa.mx",extension:"1456"},
+  {id:"carmen-cobian",nombre:"Carmen Claudia Cobián López",cargo:"Coordinación de Procesos Académicos",area:"academicos",foto:"assets/photos/carmen-cobian.jpg",programas:"Programa escolarizado de Ingeniería Arquitecto",correo:"carmen.cobian@univa.mx",extension:"1462"},
+  {id:"luis-osorno",nombre:"Luis Alfonso Osorno Montes",cargo:"Coordinación de Procesos Académicos",area:"academicos",foto:"assets/photos/luis-osorno.jpg",programas:"Programas escolarizados de Ingeniería Industrial, Ingeniería Mecatrónica e Ingeniería en Sistemas y Tecnologías de Información; programas Impulso de Ingeniería Industrial e Ingeniería en Sistemas Computacionales",correo:"luis.osorno@univa.mx",extension:"1455"},
+  {id:"sandra-estrada",nombre:"Sandra Guadalupe Estrada Ochoa",cargo:"Coordinación de Procesos de Tutorías",area:"tutorias",foto:"assets/photos/sandra-estrada.jpg",programas:"Programas escolarizados de Ingeniería Industrial, Ingeniería Mecatrónica e Ingeniería en Sistemas y Tecnologías de Información; programas Impulso de Ingeniería Industrial e Ingeniería en Sistemas Computacionales",correo:"sandy.estrada@univa.mx",extension:"1831"},
+  {id:"leonardo-flores",nombre:"Leonardo Flores Cosío",cargo:"Coordinación de Procesos de Tutorías",area:"tutorias",foto:"assets/photos/leonardo-flores.jpg",programas:"Programa escolarizado de Ingeniería Arquitecto",correo:"leonardo.flores@univa.mx",extension:"1870"},
+  {id:"daniela-alcocer",nombre:"Daniela Patricia Alcocer Pérez",cargo:"Coordinación de Titulación y Vinculación",area:"vinculacion",foto:"assets/photos/daniela-alcocer.jpg",correo:"daniela.alcocer@univa.mx",extension:"2003"},
+  {id:"ana-ramos",nombre:"Ana Caro Ramos",cargo:"Laboratorio de Construcción",area:"laboratorios",foto:"assets/photos/ana-ramos.jpg"},
+  {id:"luis-cortes",nombre:"Luis Gabriel Cortés Huerta",cargo:"Laboratorio de Ingenierías",area:"laboratorios",foto:"assets/photos/luis-cortes.jpg"},
+  {id:"jorge-lopez",nombre:"Jorge Antonio López Avilés",cargo:"Laboratorio de Electrónica",area:"laboratorios",foto:"assets/photos/jorge-lopez.jpg"},
+  {id:"alfredo-gonzalez",nombre:"Alfredo González Mercado",cargo:"Laboratorio de Cómputo",area:"laboratorios",foto:"assets/photos/alfredo-gonzalez.jpg"},
+  {id:"angel-perez",nombre:"Ángel Jaziel Pérez Zamora",cargo:"Auxiliar de Laboratorio de Cómputo",area:"laboratorios",foto:"assets/photos/angel-perez.jpg"}
 ];
 
 const app = document.querySelector("#app");
@@ -27,8 +27,8 @@ const iniciales = nombre => nombre.split(" ").filter(Boolean).slice(0,2).map(p =
 
 function tarjetaPersona(persona) {
   return `<a class="person-card" href="#persona/${persona.id}">
-    <span class="avatar">${iniciales(persona.nombre)}</span>
-    <span><b>${persona.nombre}</b><small>${persona.cargo}</small></span><i>→</i>
+    <span class="avatar"><img src="${persona.foto}" alt="Fotografía de ${persona.nombre}"></span>
+    <span><b>${persona.nombre}</b><small>${persona.cargo}</small>${persona.programas?`<small class="programas">${persona.programas}</small>`:""}</span><i>→</i>
   </a>`;
 }
 
@@ -59,7 +59,7 @@ function verPersona(id) {
   const p = personas.find(persona=>persona.id===id);
   if (!p) return inicio();
   const area=areas.find(a=>a.id===p.area);
-  app.innerHTML=`<section class="profile-page"><a class="back light-back" href="#area/${p.area}">← Volver al área</a><div class="profile-card"><span class="profile-avatar">${iniciales(p.nombre)}</span><div><p class="eyebrow blue">Semblanza</p><h1>${p.nombre}</h1><h2>${p.cargo}</h2><p class="bio">La formación académica, experiencia profesional y semblanza de este integrante se incorporarán en la siguiente actualización del sitio.</p><dl><dt>Área</dt><dd>${area?.title||""}</dd>${p.correo?`<dt>Correo</dt><dd><a href="mailto:${p.correo}">${p.correo}</a></dd>`:""}${p.extension?`<dt>Extensión</dt><dd>${p.extension}</dd>`:""}</dl></div></div></section>`;
+  app.innerHTML=`<section class="profile-page"><a class="back light-back" href="#area/${p.area}">← Volver al área</a><div class="profile-card"><span class="profile-avatar"><img src="${p.foto}" alt="Fotografía de ${p.nombre}"></span><div><p class="eyebrow blue">Semblanza</p><h1>${p.nombre}</h1><h2>${p.cargo}</h2>${p.programas?`<p class="program-detail"><b>Programas que atiende:</b> ${p.programas}.</p>`:""}<p class="bio">La formación académica, experiencia profesional y semblanza de este integrante se incorporarán en la siguiente actualización del sitio.</p><dl><dt>Área</dt><dd>${area?.title||""}</dd>${p.correo?`<dt>Correo</dt><dd><a href="mailto:${p.correo}">${p.correo}</a></dd>`:""}${p.extension?`<dt>Extensión</dt><dd>${p.extension}</dd>`:""}</dl></div></div></section>`;
 }
 
 function navegar() {

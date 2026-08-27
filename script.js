@@ -11,7 +11,7 @@ const areas = [
 const personas = [
   {id:"maria-elena",nombre:"María Elena González Bañales",cargo:"Jefa del departamento",area:"jefatura",foto:"assets/photos/maria-elena.jpg",correo:"elena.gonzalez@univa.mx",extension:"1456"},
   {id:"carmen-cobian",nombre:"Carmen Claudia Cobián López",cargo:"Coordinación de Procesos Académicos",area:"academicos",foto:"assets/photos/carmen-cobian.jpg",programas:"Programa escolarizado de Ingeniería Arquitecto",correo:"carmen.cobian@univa.mx",extension:"1462"},
-  {id:"luis-osorno",nombre:"Luis Alfonso Osorno Montes",cargo:"Coordinación de Procesos Académicos",area:"academicos",foto:"assets/photos/luis-osorno.jpg",programas:"Programas escolarizados de Ingeniería Industrial, Ingeniería Mecatrónica e Ingeniería en Sistemas y Tecnologías de Información; programas Impulso de Ingeniería Industrial e Ingeniería en Sistemas Computacionales",correo:"luis.osorno@univa.mx",extension:"1455"},
+  {id:"luis-osorno",nombre:"Luis Alfonso Osorno Montes",cargo:"Coordinación de Procesos Académicos",area:"academicos",foto:"assets/photos/luis-osorno.jpg",programas:"Programas escolarizados de Ingeniería Industrial, Ingeniería Mecatrónica e Ingeniería en Sistemas y Tecnologías de Información; programas Impulso de Ingeniería Industrial e Ingeniería en Sistemas Computacionales",correo:"luis.osorno@univa.mx",extension:"1455",resumen:"Ingeniero Industrial e Ingeniero en Sistemas Computacionales, Maestro en Ciencias de la Familia y Doctor en Educación. Cuenta con 29 años de experiencia docente y formación especializada en manufactura, automatización y control.",semblanza:`El Dr. Luis Alfonso Osorno Montes es Ingeniero Industrial e Ingeniero en Sistemas Computacionales, Maestro en Ciencias de la Familia y Doctor en Educación. Está por finalizar sus estudios de la Licenciatura en Derecho y se encuentra en lista de espera para ingresar a las maestrías en Derecho Procesal y de Amparo e Ingeniería Mecatrónica. Cuenta con 29 años de experiencia docente y formación en manufactura y automatización. Destacan sus estudios en planeación de la producción, Lean Six Sigma Black Belt, PLC Siemens con TIA Portal, operación de máquinas CNC con controles FANUC y CENTROID, y corte láser industrial.`},
   {id:"sandra-estrada",nombre:"Sandra Guadalupe Estrada Ochoa",cargo:"Coordinación de Procesos de Tutorías",area:"tutorias",foto:"assets/photos/sandra-estrada.jpg",programas:"Programas escolarizados de Ingeniería Industrial, Ingeniería Mecatrónica e Ingeniería en Sistemas y Tecnologías de Información; programas Impulso de Ingeniería Industrial e Ingeniería en Sistemas Computacionales",correo:"sandy.estrada@univa.mx",extension:"1831"},
   {id:"leonardo-flores",nombre:"Leonardo Flores Cosío",cargo:"Coordinación de Procesos de Tutorías",area:"tutorias",foto:"assets/photos/leonardo-flores.jpg",programas:"Programa escolarizado de Ingeniería Arquitecto",correo:"leonardo.flores@univa.mx",extension:"1870"},
   {id:"daniela-alcocer",nombre:"Daniela Patricia Alcocer Pérez",cargo:"Coordinación de Vinculación",area:"vinculacion",foto:"assets/photos/daniela-alcocer.jpg",correo:"daniela.alcocer@univa.mx",extension:"2003"},
@@ -25,11 +25,21 @@ const personas = [
 
 const app = document.querySelector("#app");
 const iniciales = nombre => nombre.split(" ").filter(Boolean).slice(0,2).map(p => p[0]).join("");
+const formatearSemblanza = texto => texto.split("\n\n").map(parrafo => `<p>${parrafo}</p>`).join("");
 
 function tarjetaPersona(persona) {
   return `<a class="person-card" href="#persona/${persona.id}">
-    <span class="avatar">${persona.foto?`<img src="${persona.foto}" alt="Fotografía de ${persona.nombre}">`:iniciales(persona.nombre)}</span>
-    <span><b>${persona.nombre}</b><small>${persona.cargo}</small>${persona.programas?`<small class="programas">${persona.programas}</small>`:""}</span><i>→</i>
+    <span class="person-card-inner">
+      <span class="card-face card-front">
+        <span class="avatar">${persona.foto?`<img src="${persona.foto}" alt="Fotografía de ${persona.nombre}">`:iniciales(persona.nombre)}</span>
+        <span><b>${persona.nombre}</b><small>${persona.cargo}</small>${persona.programas?`<small class="programas">${persona.programas}</small>`:""}</span><i>→</i>
+      </span>
+      <span class="card-face card-back">
+        <b>Semblanza</b>
+        <span>${persona.resumen || "La semblanza de este integrante se incorporará próximamente."}</span>
+        <small>Ver ficha completa →</small>
+      </span>
+    </span>
   </a>`;
 }
 
@@ -41,7 +51,7 @@ function inicio() {
     </section>
     <section class="section" id="areas">
       <div class="section-head"><div><p class="eyebrow blue">Nuestro departamento</p><h2>Áreas de atención</h2></div><p>Cada área contribuye a la formación y acompañamiento de nuestra comunidad universitaria.</p></div>
-      <div class="area-grid">${areas.map((area,i)=>`<a class="area-card" href="#area/${area.id}"><span class="number">0${i+1}</span><h3>${area.title}</h3><p>${area.short}</p><b>Conocer el área <span>→</span></b></a>`).join("")}</div>
+      <div class="area-grid">${areas.map(area=>`<a class="area-card" href="#area/${area.id}"><h3>${area.title}</h3><p>${area.short}</p><b>Conocer el área <span>→</span></b></a>`).join("")}</div>
     </section>
     <section class="directory" id="directorio">
       <div class="section-head light"><div><p class="eyebrow">Nuestro equipo</p><h2>Directorio</h2></div><p>Selecciona un integrante para consultar su ficha.</p></div>
@@ -60,7 +70,8 @@ function verPersona(id) {
   const p = personas.find(persona=>persona.id===id);
   if (!p) return inicio();
   const area=areas.find(a=>a.id===p.area);
-  app.innerHTML=`<section class="profile-page"><a class="back light-back" href="#area/${p.area}">← Volver al área</a><div class="profile-card"><span class="profile-avatar">${p.foto?`<img src="${p.foto}" alt="Fotografía de ${p.nombre}">`:iniciales(p.nombre)}</span><div><p class="eyebrow blue">Semblanza</p><h1>${p.nombre}</h1><h2>${p.cargo}</h2>${p.programas?`<p class="program-detail"><b>Programas que atiende:</b> ${p.programas}.</p>`:""}<p class="bio">La formación académica, experiencia profesional y semblanza de este integrante se incorporarán en la siguiente actualización del sitio.</p><dl><dt>Área</dt><dd>${area?.title||""}</dd>${p.correo?`<dt>Correo</dt><dd><a href="mailto:${p.correo}">${p.correo}</a></dd>`:""}${p.extension?`<dt>Extensión</dt><dd>${p.extension}</dd>`:""}</dl></div></div></section>`;
+  const biografia = p.semblanza ? formatearSemblanza(p.semblanza) : "<p>La formación académica, experiencia profesional y semblanza de este integrante se incorporarán en la siguiente actualización del sitio.</p>";
+  app.innerHTML=`<section class="profile-page"><a class="back light-back" href="#area/${p.area}">← Volver al área</a><div class="profile-card"><span class="profile-avatar">${p.foto?`<img src="${p.foto}" alt="Fotografía de ${p.nombre}">`:iniciales(p.nombre)}</span><div><p class="eyebrow blue">Semblanza</p><h1>${p.nombre}</h1><h2>${p.cargo}</h2>${p.programas?`<p class="program-detail"><b>Programas que atiende:</b> ${p.programas}.</p>`:""}<div class="bio">${biografia}</div><dl><dt>Área</dt><dd>${area?.title||""}</dd>${p.correo?`<dt>Correo</dt><dd><a href="mailto:${p.correo}">${p.correo}</a></dd>`:""}${p.extension?`<dt>Extensión</dt><dd>${p.extension}</dd>`:""}</dl></div></div></section>`;
 }
 
 function navegar() {
